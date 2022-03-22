@@ -31,18 +31,18 @@ public class MyLambda {
 		// remove the input type also
 		// sum of two number
 		Code c = (a, b) -> System.out.println(a + b);
-		c.execute(10, 20);
+		c.execute(17, 34);
 
 		// write the lambda to print hello world
 
-		Hello hello = () -> System.out.println("Hello World");
+		Hello hello = () -> System.out.println("HelloWorld616");
 		hello.print();
 
 		// lambda to return the string in upper case
 		// if single input parameters remove the bracket
 		// remove the return keyword
 		StringUpper upper = str ->str.toUpperCase();
-		String str = upper.toUpper("ansar");
+		String str = upper.toUpper("jeevan");
 		System.out.println(str);
 	}
 
@@ -51,7 +51,7 @@ public class MyLambda {
 	}
 
 	public void print() {
-		System.out.println("Hello World");
+		System.out.println("HelloWorld616");
 	}
 
 	public void sum(int a, int b) {
