@@ -1,0 +1,107 @@
+Server [localhost]:
+Database [postgres]:
+Port [5432]:
+Username [postgres]:
+Password for user postgres:
+psql (14.2)
+WARNING: Console code page (850) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+postgres=# \l
+                                         List of databases
+   Name    |  Owner   | Encoding |      Collate       |       Ctype        |   Access privileges
+-----------+----------+----------+--------------------+--------------------+-----------------------
+ postgres  | postgres | UTF8     | English_India.1252 | English_India.1252 |
+ template0 | postgres | UTF8     | English_India.1252 | English_India.1252 | =c/postgres          +
+           |          |          |                    |                    | postgres=CTc/postgres
+ template1 | postgres | UTF8     | English_India.1252 | English_India.1252 | =c/postgres          +
+           |          |          |                    |                    | postgres=CTc/postgres
+ test      | postgres | UTF8     | English_India.1252 | English_India.1252 |
+(4 rows)
+
+
+postgres=# \c test;
+You are now connected to database "test" as user "postgres".
+test=# \dt
+          List of relations
+ Schema |   Name   | Type  |  Owner
+--------+----------+-------+----------
+ public | employee | table | postgres
+(1 row)
+
+
+test=# \d employee
+                     Table "public.employee"
+ Column |          Type          | Collation | Nullable | Default
+--------+------------------------+-----------+----------+---------
+ id     | bigint                 |           |          |
+ name   | character varying(100) |           |          |
+ salary | double precision       |           |          |
+ doj    | character varying(100) |           |          |
+
+
+test=# select *from employee;
+ id  |  name  | salary |    doj
+-----+--------+--------+------------
+ 102 | kiran  |  807.9 | 12/2/2010
+ 103 | rahul  |   4567 | 11/4/2022
+ 101 | jeevan |   2000 | 30/11/2000
+(3 rows)
+
+
+test=# insert into employee(104,'junaid',345678.0,'4/4/2020');
+ERROR:  syntax error at or near "104"
+LINE 1: insert into employee(104,'junaid',345678.0,'4/4/2020');
+                             ^
+test=# insert into employee values(104,'raj',2345678.9765,'4/4/2021');
+INSERT 0 1
+test=# select *from employee;
+ id  |  name  |    salary    |    doj
+-----+--------+--------------+------------
+ 102 | kiran  |        807.9 | 12/2/2010
+ 103 | rahul  |         4567 | 11/4/2022
+ 101 | jeevan |         2000 | 30/11/2000
+ 104 | raj    | 2345678.9765 | 4/4/2021
+(4 rows)
+
+
+test=# delete from employee where id=104;
+DELETE 1
+test=# select *from employee;
+ id  |  name  | salary |    doj
+-----+--------+--------+------------
+ 102 | kiran  |  807.9 | 12/2/2010
+ 103 | rahul  |   4567 | 11/4/2022
+ 101 | jeevan |   2000 | 30/11/2000
+(3 rows)
+
+
+test=# update employee set name = 'ion' where id = 103;
+UPDATE 1
+test=# select *from employee;
+ id  |  name  | salary |    doj
+-----+--------+--------+------------
+ 102 | kiran  |  807.9 | 12/2/2010
+ 101 | jeevan |   2000 | 30/11/2000
+ 103 | ion    |   4567 | 11/4/2022
+(3 rows)
+
+
+test=# update employee salary=200 where id=102;
+ERROR:  syntax error at or near "="
+LINE 1: update employee salary=200 where id=102;
+                              ^
+test=# update employee set salary=200 where id=102;
+UPDATE 1
+test=# select *from employee;
+ id  |  name  | salary |    doj
+-----+--------+--------+------------
+ 101 | jeevan |   2000 | 30/11/2000
+ 103 | ion    |   4567 | 11/4/2022
+ 102 | kiran  |    200 | 12/2/2010
+(3 rows)
+
+
+test=#
